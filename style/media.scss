@@ -1,0 +1,115 @@
+@use "./mocha.scss" as *;
+
+$accent: $lavender;
+
+.media {
+  color: $accent;
+}
+
+.media-tag {
+  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  padding: 0;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.media-container {
+  background: $base;
+  color: $text;
+  padding: 10px;
+  border-radius: 5px;
+  min-width: 500px;
+}
+
+.media-art {
+  min-width: 160px;
+  min-height: 160px;
+  border-radius: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 10px;
+  margin: 0;
+}
+
+.media-cover {
+  border-radius: 5px;
+}
+
+.media-info {
+  padding: 0;
+}
+
+.media-title {
+  font-family: "LXGW WenKai TC";
+  font-size: 16pt;
+}
+
+.media-album {
+  font-family: "LXGW WenKai TC";
+  font-size: 14pt;
+  color: $subtext1;
+}
+
+.media-artist {
+  font-family: "LXGW WenKai TC";
+  font-size: 14pt;
+  color: $subtext0;
+}
+
+.media-scroll viewport {
+  background: transparent;
+  border: 0px transparent;
+}
+
+.media-scroll scrollbar {
+  color: transparent;
+  background: transparent;
+  border: 0px transparent;
+}
+
+.media-scroll scrollbar trough {
+  color: transparent;
+  background: transparent;
+  border: 0px transparent;
+}
+
+.media-scroll scrollbar contents {
+  color: transparent;
+  background: transparent;
+  border: 0px transparent;
+}
+
+.media-scroll scrollbar slider {
+  color: transparent;
+  background: transparent;
+  border: 0px transparent;
+}
+
+.media-control {
+  font-family: 'JetBrainsMono Nerd Font';
+  margin: 0 5px 0 5px;
+
+  & button {
+    background: $base;
+  }
+
+  & button:hover {
+    background: $base;
+    box-shadow: unset;
+  }
+}
+
+.media-control-butn {
+  font-size: 15pt;
+  color: $text;
+  padding: 5px 10px 5px 10px;
+}
+
+.media-slider {
+  // padding: 10px 0 10px 0;
+
+  highlight {
+    background: $accent;
+  }
+}

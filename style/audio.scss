@@ -1,0 +1,59 @@
+@use "./mocha.scss" as *;
+
+$accent: $red;
+
+.audio {
+  color: $accent;
+}
+
+.audio-tag {
+  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  padding: 0;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.audio-section-tag {
+  color: $accent;
+  font-size: 1.2rem;
+}
+
+.audio-container {
+  color: $text;
+}
+
+.audio-section {
+  background: $base;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.audio-section-list-item-icon {
+  color: $subtext0;
+
+  &.active {
+    color: $accent;
+  }
+}
+
+.volume-item-container {
+  padding: 5px 0 5px 0;
+}
+
+.volume-item-icon {
+  color: $accent;
+}
+
+.volume-item-slider-tag {
+  font-size: 0.8rem;
+}
+
+.volume-item-slider {
+  trough {
+    min-width: 200px;
+  }
+
+  highlight {
+    background: $accent;
+  }
+}

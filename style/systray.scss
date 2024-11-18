@@ -1,0 +1,6 @@
+@use "./style/mocha.scss" as *;
+
+.systray-item-icon {
+  font-size: 1.3em;
+  color: $text;
+}

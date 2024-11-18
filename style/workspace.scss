@@ -1,0 +1,26 @@
+@use "./mocha.scss" as *;
+
+.workspaces button {
+  background-color: transparent;
+  padding: 5px 10px 0 10px;
+  border-bottom: 2px solid transparent;
+  color: $text;
+  font-weight: bold;
+  border-radius: 0px;
+}
+
+.workspaces button:hover {
+  background-color: rgba($text, 0.1);
+}
+
+.workspaces button:active {
+  background-color: rgba($text, 0.2);
+}
+
+.workspaces button.focused {
+  border-bottom: 2px solid $lavender;
+}
+
+.workspaces button.occupied {
+  border-bottom: 2px solid $overlay1;
+}
