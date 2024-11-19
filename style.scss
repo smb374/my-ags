@@ -50,12 +50,13 @@ trough {
   min-height: 10px;
   background: $surface1;
   border-radius: 5px;
+
+  highlight {
+    min-height: 10px;
+    border-radius: 5px;
+  }
 }
 
-highlight {
-  min-height: 10px;
-  border-radius: 5px;
-}
 
 menu {
   background: $base;

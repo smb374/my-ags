@@ -42,6 +42,7 @@ $accent: $red;
 
 .volume-item-icon {
   color: $accent;
+  font-size: 1.2rem;
 }
 
 .volume-item-slider-tag {
@@ -51,9 +52,10 @@ $accent: $red;
 .volume-item-slider {
   trough {
     min-width: 200px;
+
+    highlight {
+      background: $accent;
+    }
   }
 
-  highlight {
-    background: $accent;
-  }
 }

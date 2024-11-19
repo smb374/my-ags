@@ -2,7 +2,7 @@ import WirePlumber from "gi://AstalWp";
 import { bind, Variable } from "astal";
 import { Gtk } from "astal/gtk3";
 import { DropdownMenu } from "../modules/Dropdown";
-import { open_menu, truncate, update_variable } from "../utils";
+import { open_menu, truncate, update_variable, pad_num } from "../utils";
 
 const wireplumber = WirePlumber.get_default();
 const current_icon = Variable("󰕾");
@@ -90,7 +90,7 @@ function volume_item_icon(endpoint: WirePlumber.Endpoint | null, is_input: boole
 }
 
 function VolumeItem(props: { microphone?: boolean }): JSX.Element {
-  const { START, END } = Gtk.Align;
+  const { START, END, FILL, BASELINE } = Gtk.Align;
   const flag = props.microphone ?? false;
   const endpoint = flag ? default_microphone : default_speaker;
   const current_state = Variable({
@@ -136,20 +136,26 @@ function VolumeItem(props: { microphone?: boolean }): JSX.Element {
           icon={bind(current_state).as(({ icon }) => icon)}
         />
       </button>
-      <box className="volume-item-slider-container" vertical hexpand spacing={5}>
+      <box className="volume-item-slider-container" halign={FILL} vertical hexpand>
         <label
           halign={START}
           className="volume-item-slider-tag"
           label={bind(current_state).as(({ name }) => truncate(name, 30))} />
-        <slider
-          className="volume-item-slider"
-          onDragged={({ value }) => {
-            const ep = endpoint.get();
-            if (ep) {
-              ep.set_volume(value);
-            }
-          }}
-          value={bind(current_state).as(({ volume }) => volume)} />
+        <box halign={FILL} hexpand spacing={10}>
+          <slider
+            halign={FILL}
+            className="volume-item-slider"
+            onDragged={({ value }) => {
+              const ep = endpoint.get();
+              if (ep) {
+                ep.set_volume(value);
+              }
+            }}
+            hexpand
+            value={bind(current_state).as(({ volume }) => volume)} />
+          <box halign={FILL} hexpand />
+          <label halign={END} label={bind(current_state).as(({ volume }) => `${pad_num(Math.floor(volume * 100), 3, ' ')}%`)} />
+        </box>
       </box>
     </box>
   );

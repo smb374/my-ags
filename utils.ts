@@ -8,6 +8,10 @@ const hyprland = Hyprland.get_default();
 export const global_evboxes: Variable<Record<string, EventBox>> = Variable({});
 export const global_windows: Variable<Record<string, Window>> = Variable({});
 
+export function pad_num(num: number, size: number, padding: string = '0'): string {
+  return String(num).padStart(size, padding);
+}
+
 export function update_variable<T>(variable: Variable<T>, fn: (self: T) => T) {
   const val = variable.get();
   const nval = fn(val);
