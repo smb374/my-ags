@@ -5,18 +5,9 @@ import { DropdownMenu } from "../modules/Dropdown";
 import { open_menu, truncate, update_variable, pad_num } from "../utils";
 
 const wireplumber = WirePlumber.get_default();
-const current_icon = Variable("󰕾");
-const current_volume = Variable(100);
 const current_endpoints: Variable<WirePlumber.Endpoint[]> = Variable([]);
 const default_speaker: Variable<WirePlumber.Endpoint | null> = Variable(null);
 const default_microphone: Variable<WirePlumber.Endpoint | null> = Variable(null);
-const icons: Record<number, string> = {
-  101: '󰕾',
-  66: '󰕾',
-  34: '󰖀',
-  1: '󰕿',
-  0: '󰝟',
-};
 const input_icons: Record<number, string> = {
   101: 'microphone-sensitivity-high-symbolic',
   66: 'microphone-sensitivity-high-symbolic',
@@ -35,10 +26,6 @@ const speaker_icons: Record<number, string> = {
 function update_default_speaker() {
   const speaker = wireplumber?.get_default_speaker();
   if (speaker) {
-    speaker.connect("notify", (self) => {
-      current_icon.set(get_icon(self));
-      current_volume.set(self.volume);
-    });
     default_speaker.set(speaker);
   }
 }
@@ -63,22 +50,6 @@ function update_wp() {
   update_endpoints();
 }
 
-function get_icon(endpoint: WirePlumber.Endpoint): string {
-  if (endpoint.mute) {
-    return icons[0];
-  }
-  const vol = endpoint.volume;
-
-  const foundVol = [101, 66, 34, 1, 0].find((threshold) => threshold <= vol * 100);
-
-  if (foundVol !== undefined) {
-    return icons[foundVol];
-  }
-
-  return icons[101];
-}
-
-
 function volume_item_icon(endpoint: WirePlumber.Endpoint | null, is_input: boolean) {
   const thresholds = [101, 66, 34, 1, 0];
   const icon_set = is_input ? input_icons : speaker_icons;
@@ -90,7 +61,7 @@ function volume_item_icon(endpoint: WirePlumber.Endpoint | null, is_input: boole
 }
 
 function VolumeItem(props: { microphone?: boolean }): JSX.Element {
-  const { START, END, FILL, BASELINE } = Gtk.Align;
+  const { START, END, FILL } = Gtk.Align;
   const flag = props.microphone ?? false;
   const endpoint = flag ? default_microphone : default_speaker;
   const current_state = Variable({
@@ -172,7 +143,7 @@ function SectionList(props: { microphone?: boolean }): JSX.Element {
 
   return (
     <box className="audio-section-list-container" vertical spacing={10}>
-      <label className="audio-section-tag" halign={START} hexpand label={`${flag ? "Input" : "Playback"} Endpoints`} />
+      <label className="section-tag audio" halign={START} hexpand label={`${flag ? "Input" : "Playback"} Endpoints`} />
       <box className="audio-section-list" vertical spacing={5}>
         {bind(current_endpoints).as(eps => {
           const widgets = eps.filter(filterf).sort((a, b) => b.id - a.id).map(ep => (
@@ -215,13 +186,13 @@ export function AudioWindow(): JSX.Element {
   const { START } = Gtk.Align;
   return (
     <DropdownMenu name="audio-window">
-      <box className="audio-container" hexpand vexpand vertical spacing={10}>
-        <box className="audio-section" vertical hexpand>
-          <label className="audio-section-tag" halign={START} hexpand label="Volume" />
+      <box className="container" hexpand vexpand vertical spacing={10}>
+        <box className="section" vertical hexpand>
+          <label className="section-tag audio" halign={START} hexpand label="Volume" />
           <VolumeItem />
           <VolumeItem microphone />
         </box>
-        <box className="audio-section" vertical hexpand spacing={20}>
+        <box className="section" vertical hexpand spacing={20}>
           <SectionList />
           <SectionList microphone />
         </box>
@@ -235,15 +206,25 @@ export function Audio(): JSX.Element {
   ["endpoint-added", "endpoint-removed"].forEach((signal) => {
     wireplumber?.connect(signal, () => update_wp());
   });
+  const state = Variable({ icon: volume_item_icon(null, false), volume: 0 });
+  const endpoint = default_speaker.get();
+  if (endpoint) {
+    update_variable(
+      state,
+      () => ({ icon: volume_item_icon(endpoint, false), volume: endpoint.volume })
+    );
+    endpoint.connect("notify",
+      () => update_variable(
+        state,
+        () => ({ icon: volume_item_icon(endpoint, false), volume: endpoint.volume })
+      ));
+  }
   return (
     <button className="audio bar-item" onClick={(self) => open_menu(self, "audio-window")}>
       <box spacing={10}>
+        <icon icon={bind(state).as(s => s.icon)} />
         <label
-          className="audio-tag"
-          label={bind(current_icon)}
-        />
-        <label
-          label={bind(current_volume).as(v => `${Math.round(v * 100)}%`)}
+          label={bind(state).as(s => `${Math.round(s.volume * 100)}%`)}
         />
       </box>
     </button>

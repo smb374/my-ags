@@ -5,6 +5,7 @@ import { Media } from "./Media";
 import { Audio } from "./Audio";
 import { Clock } from "./Calendar";
 import { Systray } from "./Systray";
+import { NetworkItem } from "./Network";
 
 const seg_spacing = 5;
 
@@ -57,6 +58,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       </Center>
       <Right>
         <Audio />
+        <NetworkItem />
         <Systray />
         <Clock />
       </Right>

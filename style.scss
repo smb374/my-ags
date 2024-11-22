@@ -1,150 +1,15 @@
 @use "./style/mocha.scss" as *;
 
+@use "./style/shared.scss";
 @use "./style/audio.scss";
 @use "./style/media.scss";
 @use "./style/window-title.scss";
 @use "./style/workspace.scss";
 @use "./style/calendar.scss";
+@use "./style/network.scss";
 
 * {
   all: unset;
   font-family: "JetBrainsMono NFM";
   font-size: 12pt;
-}
-
-.bar-item {
-  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
-  background: $base;
-  padding: 0 10px 0 10px;
-  border-radius: 5px;
-
-  &:hover {
-    box-shadow: unset;
-  }
-}
-
-.eventbox-padding {
-  margin-top: 60px;
-}
-
-.dropdown-menu-container {
-  background-color: $crust;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.bar {
-  color: $text;
-  background-color: transparent;
-}
-
-.container {
-  margin: 5px 10px 5px 10px;
-}
-
-label {
-  font-weight: bold;
-}
-
-trough {
-  min-height: 10px;
-  background: $surface1;
-  border-radius: 5px;
-
-  highlight {
-    min-height: 10px;
-    border-radius: 5px;
-  }
-}
-
-
-menu {
-  background: $base;
-  color: $text;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px;
-
-  menuitem {
-    padding: 5px;
-
-    label {
-      font-size: 1.2rem;
-    }
-  }
-
-  separator {
-    background-color: $overlay0;
-    min-height: 3px;
-  }
-
-  arrow.top {
-    margin-top: 0;
-    -gtk-icon-source: -gtk-icontheme('pan-up-symbolic');
-  }
-
-  arrow.bottom {
-    margin-top: 0.5em;
-    margin-bottom: -0.6em;
-    -gtk-icon-source: -gtk-icontheme('pan-down-symbolic');
-  }
-
-  check,
-  radio {
-    min-height: 0.8em;
-    min-width: 0.8em;
-    margin-right: 0.5em;
-    padding: 0;
-    color: transparent;
-    background-color: $base;
-    transition:
-      all 100ms cubic-bezier(0, 0, 0.2, 1),
-      box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
-  }
-
-  radio {
-    border-radius: 9999px;
-    border-color: $lavender;
-  }
-
-  check {
-    border-radius: 5px * 0.2;
-    border-color: $lavender;
-  }
-
-  check:hover,
-  radio:hover {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
-  }
-
-  check:active,
-  radio:active {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: $lavender;
-  }
-
-  check:checked,
-  check:indeterminate,
-  radio:checked,
-  radio:indeterminate {
-    color: $lavender;
-    background-color: $lavender;
-  }
-
-  check:checked:hover,
-  check:indeterminate:hover,
-  radio:checked:hover,
-  radio:indeterminate:hover {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
-  }
-
-  check:checked:active,
-  check:indeterminate:active,
-  radio:checked:active,
-  radio:indeterminate:active {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
-  }
 }

@@ -1,0 +1,30 @@
+@use "./mocha.scss" as *;
+
+$accent: $mauve;
+
+.network {
+  color: $accent;
+}
+
+.network-icon {
+  font-size: 1.5rem;
+  color: $overlay1;
+
+  &.active {
+    color: $accent;
+  }
+}
+
+.connection-status {
+  color: $subtext0;
+  font-size: 0.9rem;
+}
+
+.menu-switch.network {
+  color: transparent;
+
+  &:checked,
+  &:active {
+    background-color: $accent;
+  }
+}

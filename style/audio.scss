@@ -6,28 +6,6 @@ $accent: $red;
   color: $accent;
 }
 
-.audio-tag {
-  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
-  padding: 0;
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.audio-section-tag {
-  color: $accent;
-  font-size: 1.2rem;
-}
-
-.audio-container {
-  color: $text;
-}
-
-.audio-section {
-  background: $base;
-  padding: 10px;
-  border-radius: 5px;
-}
-
 .audio-section-list-item-icon {
   color: $subtext0;
 

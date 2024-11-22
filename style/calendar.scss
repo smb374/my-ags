@@ -1,5 +1,60 @@
 @use "./mocha.scss" as *;
 
+$accent: $teal;
+
 .clock {
-  color: $mauve;
+  color: $accent;
+}
+
+.clock-big {
+  font-size: 4rem;
+}
+
+.calendar-widget {
+  &:selected {
+    background: $accent;
+    color: $crust;
+    border-radius: 5px;
+  }
+
+  &.header {
+    background-color: transparent;
+    color: $accent;
+  }
+
+  &.button {
+    color: $text;
+    // font-weight: 900;
+    // font-size: 900em;
+  }
+
+  &:hover {
+    color: $accent;
+  }
+
+  &.highlight {
+    color: $accent;
+  }
+
+  &:indeterminate {
+    color: $overlay0;
+  }
+
+  font-size: 1.1em;
+  padding: 0.35em;
+}
+
+.weather-item {
+  padding: 0 20px 0 20px;
+}
+
+.weather-info-icon {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: normal;
+  font-size: 48px;
+  padding: 0 20px 0 0;
+}
+
+.weather-info-cond {
+  font-size: 1.4rem;
 }

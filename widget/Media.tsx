@@ -1,9 +1,9 @@
 import { Gtk } from "astal/gtk3";
 import Mpris from "gi://AstalMpris";
-import { bind, execAsync, timeout, Variable } from "astal";
+import { bind, execAsync, Variable } from "astal";
 import { open_menu, truncate } from "../utils";
-import { Scrollable } from "astal/gtk3/widget";
 import { DropdownMenu } from "../modules/Dropdown";
+import { Scroller } from "../modules/Scroller";
 
 const basePixel = 160;
 const mpris = Mpris.get_default();
@@ -108,34 +108,6 @@ function length_str(length: number) {
   return `${min}:${sec0}${sec}`
 }
 
-function auto_scroll(adjustment: Gtk.Adjustment | null) {
-  if (!adjustment) {
-    return;
-  }
-  adjustment.value += 1;
-  if (adjustment.value >= adjustment.upper - adjustment.page_size) {
-    timeout(1000, () => {
-      adjustment.value = 0;
-      timeout(500, () => auto_scroll(adjustment));
-    });
-  } else {
-    timeout(40, () => auto_scroll(adjustment));
-  }
-}
-
-function Scroller({ child }: { child?: JSX.Element }): JSX.Element {
-  const scroll = new Scrollable({
-    className: "media-scroll",
-    vscroll: Gtk.PolicyType.NEVER,
-    hscroll: Gtk.PolicyType.AUTOMATIC,
-    child,
-  });
-
-  timeout(500, () => auto_scroll(scroll.hadjustment));
-
-  return scroll;
-}
-
 function MediaPlayer({ player }: { player: Mpris.Player }): JSX.Element {
   const { START, CENTER, FILL, END } = Gtk.Align;
   update_info(player);
@@ -233,7 +205,7 @@ export function Media(): JSX.Element {
       className="media bar-item"
       onClick={self => open_menu(self, "media-window")}>
       <box spacing={15}>
-        <label className="media-tag" label={bind(current_info).as(({ icon }) => icon)} />
+        <label className="bar-icon" label={bind(current_info).as(({ icon }) => icon)} />
         <label
           label={bind(current_info).as(({ title, artist }) => truncate(`${artist} - ${title}`, 30))}
         />

@@ -6,13 +6,6 @@ $accent: $lavender;
   color: $accent;
 }
 
-.media-tag {
-  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
-  padding: 0;
-  margin: 0;
-  font-size: 1.2rem;
-}
-
 .media-container {
   background: $base;
   color: $text;
@@ -55,35 +48,6 @@ $accent: $lavender;
   font-family: "LXGW WenKai TC";
   font-size: 14pt;
   color: $subtext0;
-}
-
-.media-scroll viewport {
-  background: transparent;
-  border: 0px transparent;
-}
-
-.media-scroll scrollbar {
-  color: transparent;
-  background: transparent;
-  border: 0px transparent;
-}
-
-.media-scroll scrollbar trough {
-  color: transparent;
-  background: transparent;
-  border: 0px transparent;
-}
-
-.media-scroll scrollbar contents {
-  color: transparent;
-  background: transparent;
-  border: 0px transparent;
-}
-
-.media-scroll scrollbar slider {
-  color: transparent;
-  background: transparent;
-  border: 0px transparent;
 }
 
 .media-control {
