@@ -121,10 +121,10 @@ function filter_title(client: Hyprland.Client | null): Record<string, string> {
     ['^$', '󰇄', 'Desktop'],
 
     // Fallback icon
-    ['(.+)', '󰣆', `${capitalize_first_letter(client.class)}}`],
+    ['(.+)', '󰣆', `${capitalize_first_letter(client.class ?? "")}}`],
   ];
 
-  const foundMatch = windowTitleMap.find((wt) => RegExp(wt[0]).test(client.class.toLowerCase()));
+  const foundMatch = windowTitleMap.find((wt) => RegExp(wt[0]).test((client.class ?? "").toLowerCase()));
 
   // return the default icon if no match is found or
   // if the array element matched is not of size 3

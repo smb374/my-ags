@@ -21,7 +21,6 @@ export function Systray(): JSX.Element {
             App.add_icons(item.icon_theme_path);
           }
           const menu = item.create_menu();
-          console.log(item.id, item.category, item.iconName, item.gicon);
           return (
             <button
               className="systray-item"

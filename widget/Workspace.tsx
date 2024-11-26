@@ -5,8 +5,9 @@ import { Gdk } from "astal/gtk3";
 const hyprland = AstalHyprland.get_default();
 
 function ws_occupied(idx: number): boolean {
-  const clients = hyprland.get_workspace(idx)?.get_clients();
-  return (clients?.length ?? 0) !== 0;
+  // const clients = hyprland.get_workspace(idx)?.get_clients();
+  // return (clients?.length || 0) !== 0;
+  return hyprland.get_clients().some(c => c.get_workspace()?.id === idx)
 }
 
 function ws_class(idx: number, focused: AstalHyprland.Workspace = hyprland.focused_workspace,) {

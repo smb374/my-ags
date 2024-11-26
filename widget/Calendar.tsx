@@ -1,10 +1,9 @@
-import { bind, GLib, Variable } from "astal";
+import { bind, Binding, GLib, Variable } from "astal";
 import { DropdownMenu } from "../modules/Dropdown";
 import { astalify, Gtk } from "astal/gtk3";
 import { open_menu } from "../utils";
 import { CurrentWeather } from "../service/weather";
 import { Weather } from "../service/weather/constants";
-import { Scroller } from "../modules/Scroller";
 
 const format = "%a %b %d  %H:%M:%S";
 const date = Variable(GLib.DateTime.new_now_local())
@@ -19,46 +18,48 @@ function round2digits(num: number): number {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
+function WeatherInfoText(props: { icon: string, label: string | Binding<string> }): JSX.Element {
+  return (
+    <box halign={START} spacing={10}>
+      <label
+        className="clock"
+        halign={START}
+        label={props.icon}
+      />
+      <label
+        className="weather-info-text"
+        halign={START}
+        label={props.label}
+      />
+    </box>
+  );
+}
+
 function WeatherInfo(): JSX.Element {
   return (
     <box hexpand>
       <box vertical hexpand>
-        <label
-          className="weather-info-text"
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => {
-            return `\udb81\udd0f ${w.realtime.current.temp_c}\u00B0C`;
-          })}
+        <WeatherInfoText
+          icon={`\udb81\udd0f`}
+          label={bind(CurrentWeather).as((w: Weather) => `${w.realtime.current.temp_c}\u00B0C`)}
         />
-        <label
-          className="weather-info-text"
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => {
-            return `\udb80\udf93 ${w.realtime.current.pressure_mb}mBar`;
-          })}
+        <WeatherInfoText
+          icon={`\udb80\udf93`}
+          label={bind(CurrentWeather).as((w: Weather) => `${w.realtime.current.pressure_mb}mBar`)}
         />
-        <label
-          className="weather-info-text"
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => {
-            return `\udb85\uddfa ${w.realtime.current.wind_kph}km/h, ${w.realtime.current.wind_dir}`;
-          })}
+        <WeatherInfoText
+          icon={`\udb85\uddfa`}
+          label={bind(CurrentWeather).as((w: Weather) => `${w.realtime.current.wind_kph}km/h, ${w.realtime.current.wind_dir}`)}
         />
       </box>
       <box vertical hexpand>
-        <label
-          className="weather-info-text"
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => {
-            return `\udb81\udd8e ${w.realtime.current.humidity}%`;
-          })}
+        <WeatherInfoText
+          icon={`\udb81\udd8e`}
+          label={bind(CurrentWeather).as((w: Weather) => `${w.realtime.current.humidity}%`)}
         />
-        <label
-          className="weather-info-text"
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => {
-            return `\udb80\uddab ${round2digits(w.realtime.current.precip_mm)}mm`;
-          })}
+        <WeatherInfoText
+          icon={`\udb80\uddab`}
+          label={bind(CurrentWeather).as((w: Weather) => `${round2digits(w.realtime.current.precip_mm)}mm`)}
         />
       </box>
     </box>
@@ -71,13 +72,11 @@ function WeatherIcon(): JSX.Element {
       <label
         className="weather-info-icon clock"
         label={bind(CurrentWeather).as((w: Weather) => w.icon.icon)} />
-      <Scroller>
-        <label
-          className="weather-info-cond"
-          hexpand
-          halign={START}
-          label={bind(CurrentWeather).as((w: Weather) => w.realtime.current.condition.text)} />
-      </Scroller>
+      <label
+        className="weather-info-cond"
+        hexpand
+        halign={START}
+        label={bind(CurrentWeather).as((w: Weather) => w.realtime.current.condition.text)} />
     </box>
   );
 }
