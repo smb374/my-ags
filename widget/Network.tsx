@@ -11,16 +11,28 @@ const { CONNECTED, CONNECTING, DISCONNECTED } = Network.Internet;
 const { UNKNOWN } = Network.DeviceState;
 
 const network = Network.get_default();
-const primary_network: Variable<PrimaryNetwork | null> = Variable(null);
+const primary_network: Variable<PrimaryNetwork> = Variable(get_primary());
+const primary_icon: Variable<string> = Variable("");
 const wired_internet: Variable<Network.Internet> = Variable(Network.Internet.DISCONNECTED);
 const wired_icon_name: Variable<string> = Variable("network-wired-disconnected-symbolic");
+
+function get_primary() {
+  const primary = network.primary;
+  if (primary === Network.Primary.WIFI) {
+    return network.wifi;
+  } else {
+    return network.wired;
+  }
+}
 
 function update_primary() {
   const primary = network.primary;
   if (primary === Network.Primary.WIFI) {
-    primary_network.set(network.get_wifi());
+    primary_network.set(network.wifi);
+    primary_icon.set(network.wifi.icon_name);
   } else {
-    primary_network.set(network.get_wired());
+    primary_network.set(network.wired);
+    primary_icon.set(get_wired_icon_name(network.wired.device, get_wired_state(network.wired.device)));
   }
 }
 
@@ -36,8 +48,8 @@ function get_wired_state(device: NM.Device | null): Network.Internet {
   }
 }
 
-function get_wired_icon_name(internet: Network.Internet) {
-  var full = network.wired.device.client.connectivity == NM.ConnectivityState.FULL;
+function get_wired_icon_name(device: NM.Device, internet: Network.Internet) {
+  const full = device.client.connectivity == NM.ConnectivityState.FULL;
 
   if (internet == Network.Internet.CONNECTING) {
     return "network-wired-acquiring-symbolic";
@@ -54,17 +66,9 @@ function get_wired_icon_name(internet: Network.Internet) {
 
 function update_wired() {
   const internet = get_wired_state(network.wired.device);
-  const icon_name = get_wired_icon_name(internet);
+  const icon_name = get_wired_icon_name(network.wired.device, internet);
   wired_internet.set(internet);
   wired_icon_name.set(icon_name);
-}
-
-function get_primary_icon_name(nw: PrimaryNetwork | null): string {
-  if (nw?.icon_name) {
-    return nw?.icon_name;
-  } else {
-    return "connected-squares-x";
-  }
 }
 
 function get_primary_label(nw: PrimaryNetwork | null): string {
@@ -72,7 +76,7 @@ function get_primary_label(nw: PrimaryNetwork | null): string {
     return "--";
   }
   if ("ssid" in nw) {
-    return truncate(nw.ssid, 12);
+    return nw.ssid.substring(0, 7);
   } else {
     return "Wired";
   }
@@ -173,7 +177,7 @@ export function NetworkItem(): JSX.Element {
       onClick={(self) => open_menu(self, "network-window")}
     >
       <box spacing={5}>
-        <icon icon={bind(primary_network).as(get_primary_icon_name)} />
+        <icon icon={bind(primary_icon).as(s => s ?? "connected-squares-x")} />
         <label className="network-label" label={bind(primary_network).as(get_primary_label)} />
       </box>
     </button>
