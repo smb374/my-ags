@@ -1,7 +1,8 @@
 @use "./mocha.scss" as *;
 
 .bar-item {
-  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  // font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  font-family: 'FantasqueSansM Nerd Font', 'Noto Sans CJK JP';
   background: $base;
   padding: 0 10px 0 10px;
   border-radius: 5px;
@@ -181,10 +182,11 @@ menu {
 }
 
 .bar-icon {
-  font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  // font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
+  font-family: 'Symbols Nerd Font Mono';
   padding: 0;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 }
 
 .menu-switch {

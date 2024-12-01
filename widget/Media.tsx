@@ -149,14 +149,14 @@ function MediaPlayer({ player }: { player: Mpris.Player }): JSX.Element {
             className="media-control-butn"
             onClicked={() => player.previous()}
             visible={bind(player, "canGoPrevious")}>
-            <label label={"\udb80\udd41"} />
+            <label className="media-control-icon" label={"\udb80\udd41"} />
           </button>
           <button
             halign={CENTER}
             className="media-control-butn"
             onClicked={() => player.play_pause()}
             visible={bind(player, "canControl")}>
-            <label label={bind(player, "playback_status").as((s) =>
+            <label className="media-control-icon" label={bind(player, "playback_status").as((s) =>
               s === Mpris.PlaybackStatus.PLAYING ? "\udb80\udfe4" : "\udb81\udc0a"
             )} />
           </button>
@@ -165,7 +165,7 @@ function MediaPlayer({ player }: { player: Mpris.Player }): JSX.Element {
             className="media-control-butn"
             onClicked={() => player.next()}
             visible={bind(player, "canGoNext")}>
-            <label label={"\udb80\udd42"} />
+            <label className="media-control-icon" label={"\udb80\udd42"} />
           </button>
         </box>
         <label

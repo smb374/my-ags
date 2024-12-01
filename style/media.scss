@@ -51,23 +51,26 @@ $accent: $lavender;
 }
 
 .media-control {
-  font-family: 'JetBrainsMono Nerd Font';
   margin: 0 5px 0 5px;
 
   & button {
     background: $base;
-  }
 
-  & button:hover {
-    background: $base;
-    box-shadow: unset;
+    &:hover {
+      background: $base;
+      box-shadow: unset;
+    }
   }
 }
 
 .media-control-butn {
-  font-size: 15pt;
-  color: $text;
   padding: 5px 10px 5px 10px;
+}
+
+.media-control-icon {
+  font-family: 'Symbols Nerd Font Mono';
+  font-size: 0.8rem;
+  color: $text;
 }
 
 .media-slider {
