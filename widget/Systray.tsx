@@ -1,13 +1,10 @@
 import Tray from "gi://AstalTray";
 import { bind } from "astal";
-import Astal from "gi://Astal";
-import { App, Gdk } from "astal/gtk3";
+import { App } from "astal/gtk3";
 
 const tray = Tray.get_default();
 
 export function Systray(): JSX.Element {
-  const { PRIMARY, SECONDARY } = Astal.MouseButton;
-  const { NORTH, SOUTH } = Gdk.Gravity;
 
   return (
     <box
@@ -20,28 +17,21 @@ export function Systray(): JSX.Element {
           if (item.icon_theme_path) {
             App.add_icons(item.icon_theme_path);
           }
-          const menu = item.create_menu();
           return (
-            <button
+            <menubutton
               className="systray-item"
-              cursor="pointer"
-              onClick={(self, event) => {
-                switch (event.button) {
-                  case PRIMARY:
-                    item.activate(event.x, event.y);
-                    break;
-                  case SECONDARY:
-                    menu?.popup_at_widget(self, SOUTH, NORTH, null);
-                    break;
-                  default:
-                    break;
-                }
+              tooltipMarkup={bind(item, "tooltipMarkup")}
+              usePopover={false}
+              menuModel={bind(item, "menuModel")}
+              setup={self => {
+                self.insert_action_group("dbusmenu", item.actionGroup);
+                item.connect("changed", () => {
+                  self.insert_action_group("dbusmenu", item.actionGroup);
+                });
               }}
-              onDestroy={() => menu?.destroy()}
-              tooltip_markup={bind(item, "tooltip_markup")}
             >
-              <icon className="systray-item-icon" g_icon={bind(item, "gicon")} visible />
-            </button>
+              <icon className="systray-item-icon" gicon={bind(item, "gicon")} visible />
+            </menubutton>
           );
         })
       )}
