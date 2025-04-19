@@ -1,4 +1,5 @@
 @use "./mocha.scss" as *;
+@use "sass:color";
 
 .bar-item {
   // font-family: 'JetBrainsMono Nerd Font', 'Noto Sans CJK JP';
@@ -103,13 +104,13 @@ menu {
 
   check:hover,
   radio:hover {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
+    box-shadow: 0 0 0 4px color.adjust($lavender, $alpha: -0.8);
+    background-color: color.adjust($lavender, $alpha: -0.4);
   }
 
   check:active,
   radio:active {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
+    box-shadow: 0 0 0 4px color.adjust($lavender, $alpha: -0.8);
     background-color: $lavender;
   }
 
@@ -125,16 +126,16 @@ menu {
   check:indeterminate:hover,
   radio:checked:hover,
   radio:indeterminate:hover {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
+    box-shadow: 0 0 0 4px color.adjust($lavender, $alpha: -0.8);
+    background-color: color.adjust($lavender, $alpha: -0.4);
   }
 
   check:checked:active,
   check:indeterminate:active,
   radio:checked:active,
   radio:indeterminate:active {
-    box-shadow: 0 0 0 4px transparentize($lavender, 0.8);
-    background-color: transparentize($lavender, 0.4);
+    box-shadow: 0 0 0 4px color.adjust($lavender, $alpha: -0.8);
+    background-color: color.adjust($lavender, $alpha: -0.4);
   }
 }
 
