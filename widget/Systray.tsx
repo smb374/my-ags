@@ -22,13 +22,8 @@ export function Systray(): JSX.Element {
               className="systray-item"
               tooltipMarkup={bind(item, "tooltipMarkup")}
               usePopover={false}
+              actionGroup={bind(item, "actionGroup").as(ag => ["dbusmenu", ag])}
               menuModel={bind(item, "menuModel")}
-              setup={self => {
-                self.insert_action_group("dbusmenu", item.actionGroup);
-                item.connect("changed", () => {
-                  self.insert_action_group("dbusmenu", item.actionGroup);
-                });
-              }}
             >
               <icon className="systray-item-icon" gicon={bind(item, "gicon")} visible />
             </menubutton>

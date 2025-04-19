@@ -6,7 +6,7 @@ import { global_evboxes, global_windows, update_variable } from "../utils";
 
 const initRender = Variable(true);
 
-timeout(2000, () => {
+timeout(200, () => {
   initRender.set(false);
 });
 

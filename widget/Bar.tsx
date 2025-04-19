@@ -58,7 +58,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       </Center>
       <Right>
         <Audio />
-        <NetworkItem />
         <Systray />
         <Clock />
       </Right>
