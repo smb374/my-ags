@@ -10,6 +10,7 @@ const mpris = Mpris.get_default();
 const current_player = Variable(mpris.get_players()[0]);
 const current_cover = Variable({ path: "", adjw: basePixel });
 const current_info = Variable({ icon: "󰝚", title: "---", artist: "---", album: "---" });
+const current_player_idx = Variable(0);
 
 function get_icon_for_player(playerName: string): string {
   const windowTitleMap = [
@@ -38,35 +39,12 @@ function get_icon_for_player(playerName: string): string {
   return foundMatch ? foundMatch[1] : '󰝚';
 }
 
-function get_current_player(activePlayer: Mpris.Player = mpris.get_players()[0]): Mpris.Player {
-  const players = () => mpris.get_players();
-  const statusOrder = (v: Mpris.PlaybackStatus) => {
-    if (v === Mpris.PlaybackStatus.PLAYING) {
-      return 1;
-    } else if (v === Mpris.PlaybackStatus.PAUSED) {
-      return 2;
-    } else {
-      return 3;
-    }
-  };
-
-  if (players().length === 0) {
-    return players()[0];
-  }
-
-  const isPlaying = players().some(p => p.playback_status === Mpris.PlaybackStatus.PLAYING);
-
-  const playerStillExists = players().some((p) => activePlayer.bus_name === p.bus_name);
-
-  const nextPlayerUp = players().sort(
-    (a: Mpris.Player, b: Mpris.Player) => statusOrder(a.playback_status) - statusOrder(b.playback_status),
-  )[0];
-
-  if (isPlaying || !playerStillExists) {
-    return nextPlayerUp;
-  }
-
-  return activePlayer;
+function get_current_player(): Mpris.Player {
+  const idx = current_player_idx.get();
+  const players = mpris.get_players();
+  const nidx = idx % players.length;
+  current_player_idx.set(nidx);
+  return players[nidx];
 }
 
 async function calculate_img_width(path: string): Promise<number> {
@@ -94,11 +72,39 @@ function update_info(player: Mpris.Player) {
   });
 }
 
-function update_current_player(player: Mpris.Player) {
-  const p = get_current_player(player);
+function update_current_player(_player: Mpris.Player) {
+  const p = get_current_player();
   update_info(p);
   update_cover(p);
   current_player.set(p);
+}
+
+function next_player() {
+  const players = mpris.get_players();
+  const idx = current_player_idx.get();
+  if (players.length === 0) {
+    return;
+  }
+  const nidx = (idx + 1) % players.length;
+  const p = players[nidx];
+  update_info(p);
+  update_cover(p);
+  current_player.set(p);
+  current_player_idx.set(nidx);
+}
+
+function prev_player() {
+  const players = mpris.get_players();
+  const idx = current_player_idx.get();
+  if (players.length === 0) {
+    return;
+  }
+  const nidx = (idx - 1 + players.length) % players.length;
+  const p = players[nidx];
+  update_info(p);
+  update_cover(p);
+  current_player.set(p);
+  current_player_idx.set(nidx);
 }
 
 function length_str(length: number) {
@@ -147,9 +153,15 @@ function MediaPlayer({ player }: { player: Mpris.Player }): JSX.Element {
           <button
             halign={START}
             className="media-control-butn"
+            onClicked={() => prev_player()}>
+            <label className="media-control-icon" label={"\udb80\udd41"} />
+          </button>
+          <button
+            halign={START}
+            className="media-control-butn"
             onClicked={() => player.previous()}
             visible={bind(player, "canGoPrevious")}>
-            <label className="media-control-icon" label={"\udb80\udd41"} />
+            <label className="media-control-icon" label={"\udb81\udcae"} />
           </button>
           <button
             halign={CENTER}
@@ -165,6 +177,12 @@ function MediaPlayer({ player }: { player: Mpris.Player }): JSX.Element {
             className="media-control-butn"
             onClicked={() => player.next()}
             visible={bind(player, "canGoNext")}>
+            <label className="media-control-icon" label={"\udb81\udcad"} />
+          </button>
+          <button
+            halign={END}
+            className="media-control-butn"
+            onClicked={() => next_player()}>
             <label className="media-control-icon" label={"\udb80\udd42"} />
           </button>
         </box>
